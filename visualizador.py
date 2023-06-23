@@ -10,8 +10,13 @@ import plotly.graph_objects as go
 pc_doc = pd.read_excel('consolidado_primer_curso_doctorado_2014_2021.xlsx')
 info_docs = pd.read_excel('promedio_doctorados_dili.xlsx')
 grad_df = pd.read_excel('graduados_doctorado_info.xlsx')
+ies_df = pd.read_excel('consolidado_ies_doc.xlsx')
 info_docs['puntaje_fig'] = info_docs['puntaje']+5
 info_docs['total_pc'] = info_docs['programas']*info_docs['primer_curso_final']
+docs_df = pd.read_excel('base_programas_doctorado.xlsx')
+docs_df['sabana'] = False
+docs_df.loc[docs_df['IES_final']=='universidad de la sabana','sabana'] = True
+
 
 fig1 = px.histogram(pc_doc, x = 'año_final', 
                    y = 'primer_curso_final', 
@@ -38,6 +43,9 @@ fig2 = px.histogram(pc_doc[mask], x = 'año_final',
                      "sector_final": "sector"
                    })
 fig2.update_layout( yaxis_title="matriculados primer curso" )
+
+fig2.write_image("primer_curso_doctorados.jpeg", scale = 10, width = 800, height = 600)
+
 
 fig3 = px.line(pc_doc.groupby(['area_conocimiento_final', 'año_final'])['primer_curso_final'].sum().reset_index(), 
                x = 'año_final', 
@@ -101,22 +109,30 @@ fig6.add_vline(x=sabana_val)
 fig7 = make_subplots(rows=2, cols=2, horizontal_spacing = 0.15)
 
 fig7.add_trace(
-    go.Scatter(x=grad_df['graduados_final'], y=1/grad_df['ranking QS'], mode = 'markers'),
+    go.Scatter(x=grad_df['graduados_final'], y=1/grad_df['ranking QS'], mode = 'markers',  marker=dict(
+                size=10,
+            )),
     row=1, col=2
 )
 
 fig7.add_trace(
-    go.Scatter(x=grad_df['graduados_final'], y=1/grad_df['rnking sapiens'], mode = 'markers'),
+    go.Scatter(x=grad_df['graduados_final'], y=1/grad_df['rnking sapiens'], mode = 'markers',  marker=dict(
+                size=10,
+            )),
     row=1, col=1
 )
 
 fig7.add_trace(
-    go.Scatter(x=grad_df['graduados_final'], y=1/grad_df['scimago institutions rankings'], mode = 'markers'),
+    go.Scatter(x=grad_df['graduados_final'], y=1/grad_df['scimago institutions rankings'], mode = 'markers',  marker=dict(
+                size=10,
+            )),
     row=2, col=1
 )
 
 fig7.add_trace(
-    go.Scatter(x=grad_df['graduados_final'], y=1/grad_df['webometrics'], mode = 'markers'),
+    go.Scatter(x=grad_df['graduados_final'], y=1/grad_df['webometrics'], mode = 'markers',  marker=dict(
+                size=10,
+            )),
     row=2, col=2
 )
 
@@ -132,6 +148,67 @@ fig7.update_yaxes(title_text="1/ranking Scimago", row=2, col=1)
 fig7.update_yaxes(title_text="1/ranking Webometrics", row=2, col=2)
 
 fig7.update_layout(showlegend = False, title_text="Relación entre el total de graduados de doctorado (2018-2021) y diferentes rankings")
+
+
+fig8 = px.bar(ies_df.sort_values(by=['sector_final','primer_curso_final'], ascending = False), 
+              x = 'ies_municipio', 
+              y = 'primer_curso_final', 
+              color = 'sector_final', 
+              hover_name='ies_municipio', 
+              hover_data = ['años'],
+              labels = {
+                      'primer_curso_final' : 'matriculados primer curso',
+                      'sector_final': 'sector'
+                  },
+             )
+v_sabana = ies_df[ies_df['ies_municipio']=='universidad de la sabana - chia']['primer_curso_final'].values[0]
+fig8.add_hline(y=v_sabana)
+
+fig8.update_layout(
+    title="promedio de matriculados en primer curso (2018-2021)",
+    xaxis_title=""
+    )
+
+fig8.write_image("matriculas_primer_curso_institucion.jpeg", scale = 10, width = 800, height = 800)
+
+
+fig9 = px.bar(ies_df.sort_values(by=['sector_final','primer_curso_programa'], ascending = False), 
+              x = 'ies_municipio', 
+              y = 'primer_curso_programa', 
+              color = 'sector_final', 
+              hover_name='ies_municipio', 
+              hover_data = ['años'],
+              labels = {
+                      'primer_curso_final' : 'matriculados primer curso',
+                      'sector_final': 'sector',
+                      'primer_curso_programa' : 'matriculas primer curso/programa'
+                  },
+             )
+v_sabana = ies_df[ies_df['ies_municipio']=='universidad de la sabana - chia']['primer_curso_programa'].values[0]
+fig9.add_hline(y=v_sabana)
+
+fig9.update_layout(
+    title="promedio de matriculados en primer curso por programa (2018-2021)",
+    xaxis_title=""
+    )
+
+fig9.write_image("matriculas_primer_curso_por_programa_institucion.jpeg", scale = 10, width = 800, height = 800)
+
+fig10 = px.scatter(docs_df, x = 'Valor Total', y = 'primer_curso_final', size = 'años_reportados', color = 'sector_final',  symbol = 'sabana',
+                  hover_name='programa_academico_final', 
+                  hover_data = ['IES_final', 'Valor Semestral', 'Semestres'],
+                  title = 'promedio de matriculados primer curso por programa (2018-2021)',
+                  labels = {
+                      'primer_curso_final' : 'matriculados primer curso',
+                      'sector_final': 'sector',
+                      'primer_curso_programa' : 'matriculas primer curso/programa',
+                      'IES_final': 'IES',
+                      'años_reportados': 'años reportados',
+                      'Valor Total': 'valor total'
+                  },
+                 )
+
+fig10.update_traces(marker={'sizeref': 0.03})
 
 
 app = dash.Dash(__name__)
@@ -209,18 +286,35 @@ app.layout = html.Div([
                 ],
                 style={'width': '100%',  'display': 'inline-block', 'horizontal-align': 'middle', 'verticalAlign': 'top', 'height': '50vh'}
                 ),
-            html.H2(children = "¿Cómo se compara la Universidad de La Sabana con otros Doctorados en el Área de Ingeniería?"),
+            html.H2(children = "¿Cómo se distribuyen las matrículas de Doctorado en el país?"),
             html.Div(
                 [
                     dcc.Graph(
-                        id="fig6", 
+                        id="fig8", 
                         style={'width': '50%', 'height': '100%',  'display': 'inline-block'},
-                        figure = fig6),
+                        figure = fig8),
+                    dcc.Graph(
+                        id="fig9", 
+                        style={'width': '50%', 'height': '100%',  'display': 'inline-block'},
+                        figure = fig9),
+                ],
+                style={'width': '100%',  'display': 'inline-block', 'horizontal-align': 'middle', 'verticalAlign': 'top', 'height': '100vh'}
+            ),
+            html.P(
+                        children="En términos del total de matrículas del doctorado, la Universidad de la Sabana es quinta entre las universidades privadas, con alrededor de 12 doctorandos al año. Al tener en cuenta las universidades privadas, cae al puesto 12. Sin embargo, al considerar el número de estudiantes por programa, la tendencia cambia, y la Universidad de La Sabana cae el 9 lugar entre las privadas y al puesto 19 si se tienen en cuenta las universidades públicas. En general, estos datos evidencian que la absorción de estudiantes doctorales por parte de la Universidad podría mejorar y acercarse a la absorción de los competidores directos.",
+                        style={'width': '100%', 'height': '100%',  'display': 'inline-block', 'verticalAlign': 'middle'}),
+            html.H2(children = "¿Cómo se comportan individualmente los programas de Doctorado en el área de Ingeniería en el País?"),
+            html.Div(
+                [
+                    dcc.Graph(
+                        id="fig10", 
+                        style={'width': '50%', 'height': '100%',  'display': 'inline-block'},
+                        figure = fig10),
                     html.P(
-                        children="La gráfica muestra la relación existente entre el número de matrículas en primer curso por programa (eval), y el valor promedio de un programa doctoral. Se observa una distinción clara entre los costos doctorales en universidades públicas y privadas. La gran mayoría de las universidades están en el rango entre 5 y 10 estudiantes anuales por programa. Sólo la Universidad de los Andes y la Universidad Santiago de Cali tienen promedios superiores, ambas en el rango más barato entre las privadas. La Universidad de La Sabana se encuentra en el rango por debajo de 5 estudiantes en primer curso por programa con 4.08, al mismo tiempo, está en el extremo más caro de la distribución. El tamaño de las burbujas está relacionado con el puntaje de la institución en el ranking Sapiens. Los puntos más pequeños corresponden a instituciones sin puntaje.",
+                        children="La gráfica muestra la relación entre el valor del programa y promedio de matriculados en primer curso por año, en los últimos cuatro años. El tamaño del símbolo representa la cantidad de años reportados. Los programas de la Universidad de La Sabana aparecen representados por rombos. Sobresalen entre todos los programas los de Doctorado en Ingeniería de la Universidad de los Andes y de la Universidad del Valle, también el programa de Doctorado en Ciencias Aplicadas de la Universidad Santiago de Cali (abierto en 2021). La distribución de estudiantes en universidades públicas y privadas es similar. En el caso de la Universidad de La Sabana, sólo el programa de Biociencias supera el umbral de 5 estudiantes por año en promedio. Nuestros programas de Doctorado en Biociencias y en Ingenieríaestán en el espectro más caro de la formación.",
                         style={'width': '50%', 'height': '100%',  'display': 'inline-block', 'verticalAlign': 'middle'})
                 ],
-                style={'width': '100%',  'display': 'inline-block', 'horizontal-align': 'middle', 'verticalAlign': 'top', 'height': '50vh'}
+                style={'width': '100%',  'display': 'inline-block', 'horizontal-align': 'middle', 'verticalAlign': 'top', 'height': '70vh'}
                 ),
             html.H2(children = "¿Cuál es el impacto de atraer estudiantes doctorales?"),
             html.Div(
@@ -233,7 +327,7 @@ app.layout = html.Div([
                         children="Como se observa, existe una clara correlación entre la cantidad de estudiantes doctorales graduados en los últimos 4 años en cada institución, y su posición en los diferentes rankings universitarios nacionales e internacionales. La creación de doctorados y de programas de financiamiento que permitan atraer a los mejores investigadores del país es necesaria para que la Universidad mejore aún más su posición en estos rankings y mejore su absorción en pregrados y maestrías.",
                         style={'width': '100%', 'height': '100%',  'display': 'inline-block', 'verticalAlign': 'middle'})
                 ],
-                style={'width': '100%',  'display': 'inline-block', 'horizontal-align': 'middle', 'verticalAlign': 'top', 'height': '70vh'}
+                style={'width': '100%',  'display': 'inline-block', 'horizontal-align': 'middle', 'verticalAlign': 'top', 'height': '80vh'}
                 ),
         ])
 ])
