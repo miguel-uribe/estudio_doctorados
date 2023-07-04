@@ -5,15 +5,18 @@ import pandas as pd
 import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
+import os
 
-
-pc_doc = pd.read_excel('consolidado_primer_curso_doctorado_2014_2021.xlsx')
-info_docs = pd.read_excel('promedio_doctorados_dili.xlsx')
-grad_df = pd.read_excel('graduados_doctorado_info.xlsx')
-ies_df = pd.read_excel('consolidado_ies_doc.xlsx')
+cwd = os.path.dirname(__file__)
+datadir = os.path.join(cwd, '../data/')
+imagedir = os.path.join(cwd, '../images/')
+pc_doc = pd.read_excel(os.path.join(datadir,'consolidado_primer_curso_doctorado_2014_2021.xlsx'))
+info_docs = pd.read_excel(os.path.join(datadir,'promedio_doctorados_dili.xlsx'))
+grad_df = pd.read_excel(os.path.join(datadir,'graduados_doctorado_info.xlsx'))
+ies_df = pd.read_excel(os.path.join(datadir,'consolidado_ies_doc.xlsx'))
 info_docs['puntaje_fig'] = info_docs['puntaje']+5
 info_docs['total_pc'] = info_docs['programas']*info_docs['primer_curso_final']
-docs_df = pd.read_excel('base_programas_doctorado.xlsx')
+docs_df = pd.read_excel(os.path.join(datadir,'base_programas_doctorado.xlsx'))
 docs_df['sabana'] = False
 docs_df.loc[docs_df['IES_final']=='universidad de la sabana','sabana'] = True
 
@@ -32,7 +35,7 @@ fig1.update_layout( yaxis_title="matriculados primer curso" )
 
 mask = pc_doc['area_conocimiento_final']=='ingeniería, arquitectura, urbanismo y afines'
 
-fig2 = px.histogram(pc_doc[mask], x = 'año_final', 
+fig2 = px.histogram(pc_doc[mask].sort_values(by='sector_final', ascending = False), x = 'año_final', 
                    y = 'primer_curso_final', 
                    color = 'sector_final', 
                    barmode = 'group', 
@@ -44,7 +47,7 @@ fig2 = px.histogram(pc_doc[mask], x = 'año_final',
                    })
 fig2.update_layout( yaxis_title="matriculados primer curso" )
 
-fig2.write_image("primer_curso_doctorados.jpeg", scale = 10, width = 800, height = 600)
+fig2.write_image(os.path.join(imagedir,'primer_curso_doctorados.jpeg'), scale = 10, width = 800, height = 600)
 
 
 fig3 = px.line(pc_doc.groupby(['area_conocimiento_final', 'año_final'])['primer_curso_final'].sum().reset_index(), 
@@ -108,6 +111,7 @@ fig6.add_vline(x=sabana_val)
 
 fig7 = make_subplots(rows=2, cols=2, horizontal_spacing = 0.15)
 
+
 fig7.add_trace(
     go.Scatter(x=grad_df['graduados_final'], y=1/grad_df['ranking QS'], mode = 'markers',  marker=dict(
                 size=10,
@@ -169,7 +173,7 @@ fig8.update_layout(
     xaxis_title=""
     )
 
-fig8.write_image("matriculas_primer_curso_institucion.jpeg", scale = 10, width = 800, height = 800)
+fig8.write_image(os.path.join(imagedir,'matriculas_primer_curso_institucion.jpeg'), scale = 10, width = 800, height = 800)
 
 
 fig9 = px.bar(ies_df.sort_values(by=['sector_final','primer_curso_programa'], ascending = False), 
@@ -192,7 +196,7 @@ fig9.update_layout(
     xaxis_title=""
     )
 
-fig9.write_image("matriculas_primer_curso_por_programa_institucion.jpeg", scale = 10, width = 800, height = 800)
+fig9.write_image(os.path.join(imagedir,'matriculas_primer_curso_por_programa_institucion.jpeg'), scale = 10, width = 800, height = 800)
 
 fig10 = px.scatter(docs_df, x = 'Valor Total', y = 'primer_curso_final', size = 'años_reportados', color = 'sector_final',  symbol = 'sabana',
                   hover_name='programa_academico_final', 
