@@ -273,7 +273,7 @@ app.layout = html.Div([
                         style={'width': '50%', 'height': '100%',  'display': 'inline-block'},
                         figure = fig1),
                 html.P(children="Como se evidencia en la gráfica, el número de matriculados en primer curso de doctorado en Colombia viene en aumento. En 2014, el total de matrículas nuevas en doctorado fue de 1051, mientras que en 2021 este valor ascendió a 2066, casi el doble. La figura también evidencia un cambio de tendencia importante, en la distribución de las matrículas entre universidades públicas y privadas. Aunque en 2014 había una clara preferencia por los programas doctorales realizados en las universidades públicas, en los años siguientes la brecha se ha reducido. En 2021, por primera vez, el número de matriculados en primer curso para doctorado fue mayor en las universidades privadas.",
-                    style={'width': '50%', 'height': '100%',  'display': 'inline-block', 'verticalAlign': 'middle'})
+                    style={'width': '50%', 'height': '100%',  'display': 'inline-block', 'verticalAlign': 'top'})
                     ],
                 style={'width': '100%',  'display': 'inline-block', 'horizontal-align': 'middle', 'verticalAlign': 'top', 'height': '50vh'}
                 ),
@@ -286,7 +286,7 @@ app.layout = html.Div([
                         ),
                     html.P(
                         children="El área de ingeniería es de la que más absorbe estudiantes de doctorado,  junto con las ciencias sociales y las ciencias de la educación lideran la absorción de doctorados en el país. En 2014, el total de matriculados en primer curso en doctorados de ingeniería fue de 246. En 2021, este número creció a 406. El máximo de doctorantes matriculados en primer curso en doctorados del área de ingeniería fue en 2020 con 437.",
-                        style={'width': '50%', 'height': '100%',  'display': 'inline-block', 'verticalAlign': 'middle'}
+                        style={'width': '50%', 'height': '100%',  'display': 'inline-block', 'verticalAlign': 'top'}
                         )            
                 ],
                 style={'width': '100%',  'display': 'inline-block', 'horizontal-align': 'middle', 'verticalAlign': 'top', 'height': '50vh'}
@@ -300,7 +300,7 @@ app.layout = html.Div([
                         figure = fig2),
                     html.P(
                         children="Aparte del aumento en el número de matriculados en primer curso que ya se mencióno (de 246 en 2014 a 406 en 2021), en el área de ingeniería se nota un cierre más significativo en la brecha de matrículas entre universidades públicas y universidades privadas. Mientras en 2014, el 73% de los matriculados de primer curso para un doctorado en ingeniería lo hacían en una universidad pública, en 2021 este parámetro se había reducido al 50%. Así, actualmente en Colombia la distribución de nuevos doctorantes en ingeniería está equilibrada entre universidades públicas y privadas.",
-                        style={'width': '50%', 'height': '100%',  'display': 'inline-block', 'verticalAlign': 'middle'})
+                        style={'width': '50%', 'height': '100%',  'display': 'inline-block', 'verticalAlign': 'top'})
                 ],
                 style={'width': '100%',  'display': 'inline-block', 'horizontal-align': 'middle', 'verticalAlign': 'top', 'height': '50vh'}
                 ),
@@ -312,7 +312,7 @@ app.layout = html.Div([
                         figure = fig4),
                     html.P(
                         children="El número de programas doctorales ofertados en ingeniería también viene en aumento. Para 2014 en Colombia se ofrecían 36 programas, en 2021 esa cifra se había duplicado para un total de 72 programas ofrecidos. Sin embargo, la proporción de estos programas en universidades públicas y privadas se ha mantenido estable. En todo el periodo analizado, aproximadamente 2/3 de los programas doctorales ofrecidos en áreas de ingeniería está en universidades públicas.",
-                        style={'width': '50%', 'height': '100%',  'display': 'inline-block', 'verticalAlign': 'middle'})
+                        style={'width': '50%', 'height': '100%',  'display': 'inline-block', 'verticalAlign': 'top'})
                 ],
                 style={'width': '100%',  'display': 'inline-block', 'horizontal-align': 'middle', 'verticalAlign': 'top', 'height': '50vh'}
                 ),
@@ -324,7 +324,7 @@ app.layout = html.Div([
                         figure = fig5),
                     html.P(
                         children="Un parámetro que refleja mejor el estado de los programas doctorales en ingeniería es el del número de matriculados anuales en primer curso por programa. Como se muestra en la gráfica, aunque las variaciones son pequeñas, este parámetro tiene una tendencia diferente en las universidades públicas y privadas. Mientras en las universidades públicas la tendencia es decreciente, en las privadas la tendencia es creciente y desde hace varios años, el número de matriculados en primer curso en las universidades privadas es mayor. En 2021, este parámetro alcanzó 7.73 matriculados en primer curso por programa por año.",
-                        style={'width': '50%', 'height': '100%',  'display': 'inline-block', 'verticalAlign': 'middle'})
+                        style={'width': '50%', 'height': '100%',  'display': 'inline-block', 'verticalAlign': 'top'})
                 ],
                 style={'width': '100%',  'display': 'inline-block', 'horizontal-align': 'middle', 'verticalAlign': 'top', 'height': '50vh'}
                 ),
@@ -354,7 +354,7 @@ app.layout = html.Div([
                         figure = fig10),
                     html.P(
                         children="La gráfica muestra la relación entre el valor del programa y promedio de matriculados en primer curso por año, en los últimos cuatro años. El tamaño del símbolo representa la cantidad de años reportados. Los programas de la Universidad de La Sabana aparecen representados por rombos. Sobresalen entre todos los programas los de Doctorado en Ingeniería de la Universidad de los Andes y de la Universidad del Valle, también el programa de Doctorado en Ciencias Aplicadas de la Universidad Santiago de Cali (abierto en 2021). La distribución de estudiantes en universidades públicas y privadas es similar. En el caso de la Universidad de La Sabana, sólo el programa de Biociencias supera el umbral de 5 estudiantes por año en promedio. Nuestros programas de Doctorado en Biociencias y en Ingenieríaestán en el espectro más caro de la formación.",
-                        style={'width': '50%', 'height': '100%',  'display': 'inline-block', 'verticalAlign': 'middle'})
+                        style={'width': '50%', 'height': '100%',  'display': 'inline-block', 'verticalAlign': 'top'})
                 ],
                 style={'width': '100%',  'display': 'inline-block', 'horizontal-align': 'middle', 'verticalAlign': 'top', 'height': '70vh'}
                 ),
@@ -367,7 +367,7 @@ app.layout = html.Div([
                         figure = fig7),
                     html.P(
                         children="Como se observa, existe una clara correlación entre la cantidad de estudiantes doctorales graduados en los últimos 4 años en cada institución, y su posición en los diferentes rankings universitarios nacionales e internacionales. La creación de doctorados y de programas de financiamiento que permitan atraer a los mejores investigadores del país es necesaria para que la Universidad mejore aún más su posición en estos rankings y mejore su absorción en pregrados y maestrías.",
-                        style={'width': '100%', 'height': '100%',  'display': 'inline-block', 'verticalAlign': 'middle'})
+                        style={'width': '100%', 'height': '100%',  'display': 'inline-block', 'verticalAlign': 'top'})
                 ],
                 style={'width': '100%',  'display': 'inline-block', 'horizontal-align': 'middle', 'verticalAlign': 'top', 'height': '80vh'}
                 ),
