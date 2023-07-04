@@ -7,6 +7,7 @@ from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 import os
 
+
 cwd = os.path.dirname(__file__)
 datadir = os.path.join(cwd, '../data/')
 imagedir = os.path.join(cwd, '../images/')
@@ -216,6 +217,9 @@ fig10.update_traces(marker={'sizeref': 0.03})
 
 
 app = dash.Dash(__name__)
+
+server = app.server
+
 app.title = 'Doctorados en Colombia'
 
 app.layout = html.Div([
