@@ -221,7 +221,7 @@ fig10 = px.scatter(docs_df, x = 'Valor Total', y = 'primer_curso_final', size = 
                   hover_data = ['IES_final', 'Valor Semestral', 'Semestres'],
                   title = 'promedio de matriculados primer curso por programa (2018-2021)',
                   labels = {
-                      'primer_curso_final' : 'matriculados primer curso',
+                      'primer_curso_final' : 'matriculados primer curso por año (2018-2021)',
                       'sector_final': 'sector',
                       'primer_curso_programa' : 'matriculas primer curso/programa',
                       'IES_final': 'IES',
@@ -243,15 +243,29 @@ server = app.server
 app.title = 'Doctorados en Colombia'
 
 app.layout = html.Div([
-    html.Div([
-        html.H1(children="Estado de los Doctorados en Colombia"),
-        html.P(
-            children="Elaboración: Miguel Ángel Uribe Laverde"),
-        html.P(
-            children="Fuente: SNIES")
-        ]
-    ),
-    html.Div(
+                html.Div([
+                   
+                    html.Div([
+                            html.H1(children="Estado de los Doctorados en Colombia"),
+                            html.P(
+                                children="Elaboración: Miguel Ángel Uribe Laverde"),
+                            html.Div(
+                                children = [
+                                html.P(id = 'fuentes', children= 'Fuentes:', style={'width': '50%', 'horizontalAlign': 'left'}),
+                                html.Ul(children = [
+                                    html.Li(html.A(children='SNIES', href = 'https://snies.mineducacion.gov.co/portal/')),
+                                    html.Li(html.A(children= 'Sapiens Universidades', href = 'https://www.srg.com.co/lasmejoresuniversidades-usapiens')),
+                                    html.Li(html.A(children = 'QS University Rankings', href = 'https://www.topuniversities.com/university-rankings')),
+                                    html.Li(html.A(children = 'Scimago University Rankings', href = 'https://www.scimagoir.com/rankings.php?sector=Higher%20educ.')),
+                                    html.Li(html.A(children = 'Webometrics University Rankings', href = 'https://www.webometrics.info/en/WORLD'))
+                                ], style = {'width': '50%'})
+                            ], style = {'display' : 'flex', 'margin': 'auto', 'width': '100%'})
+                            ], 
+                            style = {'width': '80%'}),
+                    html.Img(src="assets/logo_ingenieria.png", style = {'width' : '20%', 'height': '20%', 'object-fit': 'contain'})
+                    
+                    ], style = {'width': '100%', 'display' : 'flex'}),
+        html.Div(
         [
             html.H2(children = "Evolución general de matrículas en primer curso para los doctorados del país"),
             html.Div([
