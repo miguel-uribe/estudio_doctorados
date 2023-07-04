@@ -32,7 +32,9 @@ fig1 = px.histogram(pc_doc, x = 'año_final',
                      "primer_curso_final": "matriculados primer curso",
                      "sector_final": "sector"
                    })
-fig1.update_layout( yaxis_title="matriculados primer curso" )
+fig1.update_layout( yaxis_title="matriculados primer curso" , plot_bgcolor='rgba(32, 43, 81, 0.5)', paper_bgcolor='rgba(32, 43, 81, 0.5)', font_color="white")
+fig1.update_xaxes(showgrid=False, gridwidth=1, gridcolor='dimgray')
+fig1.update_yaxes(showgrid=True, gridwidth=1, gridcolor='dimgray')
 
 mask = pc_doc['area_conocimiento_final']=='ingeniería, arquitectura, urbanismo y afines'
 
@@ -46,8 +48,9 @@ fig2 = px.histogram(pc_doc[mask].sort_values(by='sector_final', ascending = Fals
                      "primer_curso_final": "matriculados primer curso",
                      "sector_final": "sector"
                    })
-fig2.update_layout( yaxis_title="matriculados primer curso" )
-
+fig2.update_layout( yaxis_title="matriculados primer curso" , plot_bgcolor='rgba(32, 43, 81, 0.5)', paper_bgcolor='rgba(32, 43, 81, 0.5)', font_color="white")
+fig2.update_xaxes(showgrid=False, gridwidth=1, gridcolor='dimgray')
+fig2.update_yaxes(showgrid=True, gridwidth=1, gridcolor='dimgray')
 #fig2.write_image(os.path.join(imagedir,'primer_curso_doctorados.jpeg'), scale = 10, width = 800, height = 600)
 
 
@@ -63,6 +66,12 @@ fig3 = px.line(pc_doc.groupby(['area_conocimiento_final', 'año_final'])['primer
                title = 'Primer curso doctorados por área de conocimiento'
               )
 
+fig3.update_layout(plot_bgcolor='rgba(32, 43, 81, 0.5)', paper_bgcolor='rgba(32, 43, 81, 0.5)', font_color="white")
+fig3.update_xaxes(showgrid=True, gridwidth=1, gridcolor='dimgray')
+fig3.update_yaxes(showgrid=True, gridwidth=1, gridcolor='dimgray')
+# This styles the line
+fig3.update_traces(line=dict(width=4))
+
 fig4 = px.histogram(pc_doc[mask].groupby(['sector_final', 'año_final'])['codigo_snies_final'].nunique().reset_index(),
                    x = 'año_final', 
                    y = 'codigo_snies_final', 
@@ -74,8 +83,9 @@ fig4 = px.histogram(pc_doc[mask].groupby(['sector_final', 'año_final'])['codigo
                      "sector_final": "sector"
                    },
                    nbins=8)
-fig4.update_layout( yaxis_title="número de programas doctorales" )
-
+fig4.update_layout( yaxis_title="número de programas doctorales" , plot_bgcolor='rgba(32, 43, 81, 0.5)', paper_bgcolor='rgba(32, 43, 81, 0.5)', font_color="white")
+fig4.update_xaxes(showgrid=False, gridwidth=1, gridcolor='dimgray')
+fig4.update_yaxes(showgrid=True, gridwidth=1, gridcolor='dimgray')
 
 fig5 = px.histogram((pc_doc[mask].groupby(['sector_final', 'año_final'])['primer_curso_final'].sum()/pc_doc[mask].groupby(['sector_final', 'año_final'])['codigo_snies_final'].nunique()).reset_index().rename(columns = {0 : 'primer_curso'}),
                     x = 'año_final', 
@@ -89,7 +99,10 @@ fig5 = px.histogram((pc_doc[mask].groupby(['sector_final', 'año_final'])['prime
                      "primer_curso" : 'matriculados por programa'
                     },
                     nbins=8)
-fig5.update_layout( yaxis_title="matriculas primer curso/programa" )
+fig5.update_layout( yaxis_title="matriculas primer curso/programa" , plot_bgcolor='rgba(32, 43, 81, 0.5)', paper_bgcolor='rgba(32, 43, 81, 0.5)', font_color="white")
+fig5.update_xaxes(showgrid=False, gridwidth=1, gridcolor='dimgray')
+fig5.update_yaxes(showgrid=True, gridwidth=1, gridcolor='dimgray')
+
 
 fig6 = px.scatter(info_docs, 
                   x = 'Valor Total', 
@@ -108,7 +121,10 @@ sabana_val = info_docs[info_docs['IES_final']=='universidad de la sabana']['Valo
 sabana_pc = info_docs[info_docs['IES_final']=='universidad de la sabana']['primer_curso_final'].values[0]
 fig6.add_hline(y=sabana_pc)
 fig6.add_vline(x=sabana_val)
+fig6.update_xaxes(showgrid=False, gridwidth=1, gridcolor='dimgray')
+fig6.update_yaxes(showgrid=True, gridwidth=1, gridcolor='dimgray')
 
+fig6.update_layout( plot_bgcolor='rgba(32, 43, 81, 0.5)', paper_bgcolor='rgba(32, 43, 81, 0.5)', font_color="white")
 
 fig7 = make_subplots(rows=2, cols=2, horizontal_spacing = 0.15)
 
@@ -142,18 +158,17 @@ fig7.add_trace(
 )
 
 # Update xaxis properties
-fig7.update_xaxes(title_text="total graduados de doctorado", row=1, col=1)
-fig7.update_xaxes(title_text="total graduados de doctorado", row=1, col=2)
-fig7.update_xaxes(title_text="total graduados de doctorado", row=2, col=1)
-fig7.update_xaxes(title_text="total graduados de doctorado", row=2, col=2)
+fig7.update_xaxes(title_text="total graduados de doctorado", row=1, col=1, gridcolor='dimgray')
+fig7.update_xaxes(title_text="total graduados de doctorado", row=1, col=2, gridcolor='dimgray')
+fig7.update_xaxes(title_text="total graduados de doctorado", row=2, col=1, gridcolor='dimgray')
+fig7.update_xaxes(title_text="total graduados de doctorado", row=2, col=2, gridcolor='dimgray')
 
-fig7.update_yaxes(title_text="1/ranking QS", row=1, col=2)
-fig7.update_yaxes(title_text="1/ranking Sapiens", row=1, col=1)
-fig7.update_yaxes(title_text="1/ranking Scimago", row=2, col=1)
-fig7.update_yaxes(title_text="1/ranking Webometrics", row=2, col=2)
+fig7.update_yaxes(title_text="1/ranking QS", row=1, col=2, gridcolor='dimgray')
+fig7.update_yaxes(title_text="1/ranking Sapiens", row=1, col=1, gridcolor='dimgray')
+fig7.update_yaxes(title_text="1/ranking Scimago", row=2, col=1, gridcolor='dimgray')
+fig7.update_yaxes(title_text="1/ranking Webometrics", row=2, col=2, gridcolor='dimgray')
 
-fig7.update_layout(showlegend = False, title_text="Relación entre el total de graduados de doctorado (2018-2021) y diferentes rankings")
-
+fig7.update_layout(showlegend = False, title_text="Relación entre el total de graduados de doctorado (2018-2021) y diferentes rankings", plot_bgcolor='rgba(32, 43, 81, 0.5)', paper_bgcolor='rgba(32, 43, 81, 0.5)', font_color="white")
 
 fig8 = px.bar(ies_df.sort_values(by=['sector_final','primer_curso_final'], ascending = False), 
               x = 'ies_municipio', 
@@ -167,13 +182,14 @@ fig8 = px.bar(ies_df.sort_values(by=['sector_final','primer_curso_final'], ascen
                   },
              )
 v_sabana = ies_df[ies_df['ies_municipio']=='universidad de la sabana - chia']['primer_curso_final'].values[0]
-fig8.add_hline(y=v_sabana)
+fig8.add_hline(y=v_sabana, line_width=3, line_color="white")
 
 fig8.update_layout(
     title="promedio de matriculados en primer curso (2018-2021)",
-    xaxis_title=""
+    xaxis_title="" , plot_bgcolor='rgba(32, 43, 81, 0.5)', paper_bgcolor='rgba(32, 43, 81, 0.5)', font_color="white"
     )
-
+fig8.update_xaxes(showgrid=False, gridwidth=1, gridcolor='dimgray')
+fig8.update_yaxes(showgrid=True, gridwidth=1, gridcolor='dimgray')
 #fig8.write_image(os.path.join(imagedir,'matriculas_primer_curso_institucion.jpeg'), scale = 10, width = 800, height = 800)
 
 
@@ -190,13 +206,14 @@ fig9 = px.bar(ies_df.sort_values(by=['sector_final','primer_curso_programa'], as
                   },
              )
 v_sabana = ies_df[ies_df['ies_municipio']=='universidad de la sabana - chia']['primer_curso_programa'].values[0]
-fig9.add_hline(y=v_sabana)
+fig9.add_hline(y=v_sabana, line_width=3, line_color="white")
 
 fig9.update_layout(
     title="promedio de matriculados en primer curso por programa (2018-2021)",
-    xaxis_title=""
+    xaxis_title="", plot_bgcolor='rgba(32, 43, 81, 0.5)', paper_bgcolor='rgba(32, 43, 81, 0.5)', font_color="white"
     )
-
+fig9.update_xaxes(showgrid=False, gridwidth=1, gridcolor='dimgray')
+fig9.update_yaxes(showgrid=True, gridwidth=1, gridcolor='dimgray')
 #fig9.write_image(os.path.join(imagedir,'matriculas_primer_curso_por_programa_institucion.jpeg'), scale = 10, width = 800, height = 800)
 
 fig10 = px.scatter(docs_df, x = 'Valor Total', y = 'primer_curso_final', size = 'años_reportados', color = 'sector_final',  symbol = 'sabana',
@@ -215,6 +232,9 @@ fig10 = px.scatter(docs_df, x = 'Valor Total', y = 'primer_curso_final', size = 
 
 fig10.update_traces(marker={'sizeref': 0.03})
 
+fig10.update_layout( plot_bgcolor='rgba(32, 43, 81, 0.5)', paper_bgcolor='rgba(32, 43, 81, 0.5)', font_color="white")
+fig10.update_xaxes(showgrid=True, gridwidth=1, gridcolor='dimgray')
+fig10.update_yaxes(showgrid=True, gridwidth=1, gridcolor='dimgray')
 
 app = dash.Dash(__name__)
 
