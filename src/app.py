@@ -48,7 +48,7 @@ fig2 = px.histogram(pc_doc[mask].sort_values(by='sector_final', ascending = Fals
                    })
 fig2.update_layout( yaxis_title="matriculados primer curso" )
 
-fig2.write_image(os.path.join(imagedir,'primer_curso_doctorados.jpeg'), scale = 10, width = 800, height = 600)
+#fig2.write_image(os.path.join(imagedir,'primer_curso_doctorados.jpeg'), scale = 10, width = 800, height = 600)
 
 
 fig3 = px.line(pc_doc.groupby(['area_conocimiento_final', 'año_final'])['primer_curso_final'].sum().reset_index(), 
@@ -174,7 +174,7 @@ fig8.update_layout(
     xaxis_title=""
     )
 
-fig8.write_image(os.path.join(imagedir,'matriculas_primer_curso_institucion.jpeg'), scale = 10, width = 800, height = 800)
+#fig8.write_image(os.path.join(imagedir,'matriculas_primer_curso_institucion.jpeg'), scale = 10, width = 800, height = 800)
 
 
 fig9 = px.bar(ies_df.sort_values(by=['sector_final','primer_curso_programa'], ascending = False), 
@@ -197,7 +197,7 @@ fig9.update_layout(
     xaxis_title=""
     )
 
-fig9.write_image(os.path.join(imagedir,'matriculas_primer_curso_por_programa_institucion.jpeg'), scale = 10, width = 800, height = 800)
+#fig9.write_image(os.path.join(imagedir,'matriculas_primer_curso_por_programa_institucion.jpeg'), scale = 10, width = 800, height = 800)
 
 fig10 = px.scatter(docs_df, x = 'Valor Total', y = 'primer_curso_final', size = 'años_reportados', color = 'sector_final',  symbol = 'sabana',
                   hover_name='programa_academico_final', 
