@@ -217,7 +217,7 @@ fig7.update_yaxes(title_text="ranking Sapiens", row=1, col=1)
 fig7.update_yaxes(title_text="ranking Scimago", row=2, col=1)
 fig7.update_yaxes(title_text="ranking Webometrics", row=2, col=2)
 
-fig7.update_layout(showlegend = False, title_text="Relación entre el total de graduados de doctorado (2018-2021) y diferentes rankings")
+fig7.update_layout(showlegend = False, title_text="Relación entre el total de graduados de doctorado (2018-2021) y diferentes rankings", plot_bgcolor='rgba(32, 43, 81, 0.5)', paper_bgcolor='rgba(32, 43, 81, 0.5)', font_color="white")
 
 
 
