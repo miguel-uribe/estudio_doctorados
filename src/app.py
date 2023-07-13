@@ -126,49 +126,100 @@ fig6.update_yaxes(showgrid=True, gridwidth=1, gridcolor='dimgray')
 
 fig6.update_layout( plot_bgcolor='rgba(32, 43, 81, 0.5)', paper_bgcolor='rgba(32, 43, 81, 0.5)', font_color="white")
 
-fig7 = make_subplots(rows=2, cols=2, horizontal_spacing = 0.15)
 
 
+
+fig7 = make_subplots(rows=2, cols=2, horizontal_spacing = 0.15, vertical_spacing=0.25)
+
+mask = grad_df['IES_final']=='universidad de la sabana'
 fig7.add_trace(
-    go.Scatter(x=grad_df['graduados_final'], y=1/grad_df['ranking QS'], mode = 'markers',  marker=dict(
-                size=10,
+    go.Scatter(x=grad_df['graduados_final'], y=grad_df['ranking QS'], mode = 'markers',
+               marker=dict(
+                size=5,
             )),
+    #px.scatter(grad_df, x = 'graduados_final', y = 'ranking QS').select_traces(),
     row=1, col=2
 )
 
 fig7.add_trace(
-    go.Scatter(x=grad_df['graduados_final'], y=1/grad_df['rnking sapiens'], mode = 'markers',  marker=dict(
+    go.Scatter(x=grad_df[mask]['graduados_final'], y=grad_df[mask]['ranking QS'], mode = 'markers',
+               marker=dict(
                 size=10,
+                color = 'black',
+                symbol = 'diamond'
+            )),
+    #px.scatter(grad_df, x = 'graduados_final', y = 'ranking QS').select_traces(),
+    row=1, col=2
+)
+
+
+fig7.add_trace(
+    go.Scatter(x=grad_df['graduados_final'], y=grad_df['rnking sapiens'], mode = 'markers', marker=dict(
+                size=5,
             )),
     row=1, col=1
 )
 
 fig7.add_trace(
-    go.Scatter(x=grad_df['graduados_final'], y=1/grad_df['scimago institutions rankings'], mode = 'markers',  marker=dict(
+    go.Scatter(x=grad_df[mask]['graduados_final'], y=grad_df[mask]['rnking sapiens'], mode = 'markers', marker=dict(
                 size=10,
+                color = 'black',
+                symbol = 'diamond'
+            )),
+    row=1, col=1
+)
+
+
+fig7.add_trace(
+    go.Scatter(x=grad_df['graduados_final'], y=grad_df['scimago institutions rankings'], mode = 'markers',
+               marker=dict(
+                size=5,
             )),
     row=2, col=1
 )
 
 fig7.add_trace(
-    go.Scatter(x=grad_df['graduados_final'], y=1/grad_df['webometrics'], mode = 'markers',  marker=dict(
+    go.Scatter(x=grad_df[mask]['graduados_final'], y=grad_df[mask]['scimago institutions rankings'], mode = 'markers',
+               marker=dict(
                 size=10,
+                color = 'black',
+                symbol = 'diamond'
+            )),
+    row=2, col=1
+)
+
+fig7.add_trace(
+    go.Scatter(x=grad_df['graduados_final'], y=grad_df['webometrics'], mode = 'markers',
+               marker=dict(
+                size=5,
+            )),
+    row=2, col=2
+)
+
+fig7.add_trace(
+    go.Scatter(x=grad_df[mask]['graduados_final'], y=grad_df[mask]['webometrics'], mode = 'markers',
+               marker=dict(
+                size=10,
+                color = 'black',
+                symbol = 'diamond'
             )),
     row=2, col=2
 )
 
 # Update xaxis properties
-fig7.update_xaxes(title_text="total graduados de doctorado", row=1, col=1, gridcolor='dimgray')
-fig7.update_xaxes(title_text="total graduados de doctorado", row=1, col=2, gridcolor='dimgray')
-fig7.update_xaxes(title_text="total graduados de doctorado", row=2, col=1, gridcolor='dimgray')
-fig7.update_xaxes(title_text="total graduados de doctorado", row=2, col=2, gridcolor='dimgray')
+fig7.update_xaxes(title_text="total graduados de doctorado", row=1, col=1)
+fig7.update_xaxes(title_text="total graduados de doctorado", row=1, col=2)
+fig7.update_xaxes(title_text="total graduados de doctorado", row=2, col=1)
+fig7.update_xaxes(title_text="total graduados de doctorado", row=2, col=2)
 
-fig7.update_yaxes(title_text="1/ranking QS", row=1, col=2, gridcolor='dimgray')
-fig7.update_yaxes(title_text="1/ranking Sapiens", row=1, col=1, gridcolor='dimgray')
-fig7.update_yaxes(title_text="1/ranking Scimago", row=2, col=1, gridcolor='dimgray')
-fig7.update_yaxes(title_text="1/ranking Webometrics", row=2, col=2, gridcolor='dimgray')
+fig7.update_yaxes(title_text="ranking QS", row=1, col=2)
+fig7.update_yaxes(title_text="ranking Sapiens", row=1, col=1)
+fig7.update_yaxes(title_text="ranking Scimago", row=2, col=1)
+fig7.update_yaxes(title_text="ranking Webometrics", row=2, col=2)
 
-fig7.update_layout(showlegend = False, title_text="Relación entre el total de graduados de doctorado (2018-2021) y diferentes rankings", plot_bgcolor='rgba(32, 43, 81, 0.5)', paper_bgcolor='rgba(32, 43, 81, 0.5)', font_color="white")
+fig7.update_layout(showlegend = False, title_text="Relación entre el total de graduados de doctorado (2018-2021) y diferentes rankings")
+
+
 
 fig8 = px.bar(ies_df.sort_values(by=['sector_final','primer_curso_final'], ascending = False), 
               x = 'ies_municipio', 
